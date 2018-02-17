@@ -4,7 +4,7 @@ namespace Auth0\SDK;
 
 use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
-use Auth0\SDK\Exception\ApiException;
+
 use Auth0\SDK\Helpers\JWKFetcher;
 use Firebase\JWT\JWT;
 

@@ -2,7 +2,7 @@
 
 namespace Auth0\SDK\API\Helpers\State;
 
-use Auth0\SDK\Store\StoreInterface;
+
 
 /*
  * This file is part of Auth0-PHP package.
@@ -27,11 +27,13 @@ interface StateHandler {
      */
     public function issue();
 
-    /**
-     * Store a given state value to be used for the state param value during authorization.
-     * 
-     * @return string
-     */
+  /**
+   * Store a given state value to be used for the state param value during authorization.
+   *
+   * @param $state
+   *
+   * @return mixed
+   */
     public function store($state);
 
     /**
@@ -40,7 +42,8 @@ interface StateHandler {
      * @param  string $state
      * 
      * @return bool result
-     * @throws exception
+     *
+     * @throws \Exception
      */
     public function validate($state);
 }

@@ -14,6 +14,8 @@ class Authentication {
   private $domain;
   private $apiClient;
   private $guzzleOptions;
+  private $audience;
+  private $scope;
 
   public function __construct($domain, $client_id = null, $client_secret = null, $audience = null, $scope = null, $guzzleOptions = []) {
 

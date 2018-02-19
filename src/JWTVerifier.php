@@ -15,6 +15,7 @@ class JWTVerifier {
     protected $valid_audiences = null;
     protected $authorized_iss = null;
     protected $client_secret = null;
+    protected $secret_base64_encoded = null;
 
     /**
      * JWTVerifier Constructor.
@@ -82,12 +83,15 @@ class JWTVerifier {
         $this->JWKFetcher = new JWKFetcher($cache, $guzzleOptions);
     }
 
-    /**
-     * @param string $jwt
-     * @return object
-     * @throws CoreException
-     * @throws InvalidTokenException
-     */
+  /**
+   * @param $jwt
+   *
+   * @return mixed
+   *
+   * @throws CoreException
+   * @throws InvalidTokenException
+   * @throws \Exception
+   */
     public function verifyAndDecode($jwt)
     {
         $tks = explode('.', $jwt);
@@ -99,8 +103,7 @@ class JWTVerifier {
         $body64 = $tks[1];
         $head = json_decode(JWT::urlsafeB64Decode($headb64));
 
-        if ( !is_object($head) || ! isset($head->alg))
-        {
+        if ( !is_object($head) || ! isset($head->alg)) {
               throw new InvalidTokenException("Invalid token");
         }
 

@@ -258,6 +258,36 @@ class Auth0
         exit;
     }
 
+    public function clientCredentials()
+    {
+        $params = [];
+        if ($this->audience) {
+            $params['audience'] = $this->audience;
+        }
+        if ($this->scope) {
+            $params['scope'] = $this->scope;
+        }
+
+        $params['response_mode'] = $this->response_mode;
+
+        $response = $this->authentication->client_credentials($params);
+
+        $access_token = (isset($response['access_token'])) ? $response['access_token'] : false;
+        $refresh_token = false;
+        $id_token = false;
+
+        if (!$access_token) {
+            throw new ApiException('Unable to retrieve access token. Invalid credentials.');
+        }
+
+        $this->setAccessToken($access_token);
+        $this->setIdToken($id_token);
+        $this->setRefreshToken($refresh_token);
+
+        return true;
+    }
+
+
     public function getUser()
     {
         if ($this->user) {

@@ -4,22 +4,31 @@ namespace Auth0\Tests\API\Management;
 use Auth0\SDK\API\Management;
 use Auth0\Tests\API\ApiTests;
 
-class BlacklistsTest extends ApiTests {
+class BlacklistsTest extends ApiTests
+{
 
-    public function testBlacklistAndGet() {
-        $env = $this->getEnv();
-        $token = $this->getToken($env, [
-            'tokens' => [
-                'actions' => ['blacklist']
-            ]
-        ]);
+    private $domain;
+
+    public function setUp()
+    {
+        parent::setUp();
+        sleep(1);
+    }
+
+    /**
+     * @throws \Auth0\SDK\Exception\ApiException
+     */
+    public function testBlacklistAndGet()
+    {
+        $env   = self::getEnv();
+        $token = self::getToken($env);
 
         $this->domain = $env['DOMAIN'];
 
         $api = new Management($token, $env['DOMAIN']);
 
-        $aud = $env["GLOBAL_CLIENT_ID"];
-        $jti = 'somerandomJTI' . rand();
+        $aud = $env['APP_CLIENT_ID'];
+        $jti = 'somerandomJTI'.rand();
 
         $api->blacklists->blacklist($aud, $jti);
 
@@ -27,7 +36,7 @@ class BlacklistsTest extends ApiTests {
 
         $found = false;
         foreach ($all as $value) {
-            if ($value["aud"] === $aud && $value["jti"] === $jti) {
+            if ($value['aud'] === $aud && $value['jti'] === $jti) {
                 $found = true;
                 break;
             }
